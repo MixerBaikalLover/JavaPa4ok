@@ -2,6 +2,8 @@ package ru.Mixer.Lab1;
 
 
 public class Entity {
+    public static final String ANSI_RED = "\u001B[31m";   // Цвета
+    public static final String ANSI_RESET = "\u001B[0m";  //    Для вывода
     private static int idCounter = 1;
     private final long id;
     private String title;
@@ -43,10 +45,6 @@ public class Entity {
                     }
                 if (distance <= 2){
                     this.attack(GameServer.getInstance().getEntities()[i]);
-                    if (GameServer.getInstance().getEntities()[i].getHealth() <= 0){
-                        System.out.println(GameServer.getInstance().getEntities()[i].title +" Murdered by "+ this.title);
-                        GameServer.getInstance().getEntities()[i] = null;
-                    }
                     }
                 }
 
@@ -60,11 +58,14 @@ public class Entity {
     public void attack(Entity entity){
         if (entity instanceof EntityPlayer){
             entity.setHealth((int) (entity.getHealth() - getAttackDamage() + 0.5 * GameServer.getInstance().getDifficulty()));
-            System.out.println(this.title + " attacked " + ((EntityPlayer) entity).nickname + " for " + this.getAttackDamage() + " dmg.");
-            entity.attack(this);
+            System.out.println(this.title + ANSI_RED +  " attacked " + ANSI_RESET + ((EntityPlayer) entity).nickname + " for " + this.getAttackDamage() + " dmg.");
+            if (entity.getHealth() > 0) entity.attack(this);
         } else{
             entity.setHealth((int) (entity.getHealth() - getAttackDamage() + 0.5 * GameServer.getInstance().getDifficulty()));
-            System.out.println(this.title + " attacked " + entity.title + " for " + this.getAttackDamage() + " dmg.");
+            System.out.println(this.title + ANSI_RED +  " attacked " + ANSI_RESET + entity.title + " for " + this.getAttackDamage() + " dmg.");
+            }
+            if (entity.getHealth() <= 0){
+                System.out.println(entity.getTitle() + " Was slain by " + this.getTitle());
             }
         }
 
