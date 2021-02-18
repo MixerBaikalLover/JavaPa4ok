@@ -3,10 +3,11 @@ package ru.Mixer.Lab1;
 public class EntityPlayer extends Entity {
     protected String nickname;
 
-    public EntityPlayer(long id, String title, double posX, double posZ, boolean aggressive, int maxHealth, int health, int attackDamage, String nickname) {
-        super(id, title, posX, posZ, false, maxHealth, health, attackDamage);
+    public EntityPlayer(String title, double posX, double posZ, int maxHealth, int health, int attackDamage, String nickname) {
+        super(title, posX, posZ, false, maxHealth, health, attackDamage);
         this.nickname = nickname;
     }
+
 
     @Override
     public String toString() {
@@ -19,8 +20,9 @@ public class EntityPlayer extends Entity {
 
     public void update(){
         super.update();
-        if (GameServer.tick % 2 == 0 && getHealth() < getMaxHealth()){
+        if (GameServer.getInstance().getTick() % 2 == 0 && getHealth() < getMaxHealth()){
             setHealth(getHealth() + 1);
+            System.out.println(this.nickname + " Отхилился на одну хепешку");
         }
     }
     public String getNickname() {

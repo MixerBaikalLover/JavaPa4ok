@@ -12,8 +12,9 @@ public class Entity {
     private int health;
     private int attackDamage;
 
-    public Entity(long id, String title, double posX, double posZ, boolean aggressive, int maxHealth, int health, int attackDamage) {
-        this.id = id;
+    public Entity( String title, double posX, double posZ, boolean aggressive, int maxHealth, int health, int attackDamage) {
+        this.id = idCounter;
+        idCounter ++;
         this.title = title;
         this.posX = posX;
         this.posZ = posZ;
@@ -29,11 +30,11 @@ public class Entity {
 
     public void update(){
         if(aggressive){
-        for(int i = 0; i < GameServer.getInstance().entities.length; i++){
-            if ( GameServer.getInstance().entities[i] != null && !GameServer.getInstance().entities[i].aggressive )
+        for(int i = 0; i < GameServer.getInstance().getEntities().length; i++){
+            if ( GameServer.getInstance().getEntities()[i] != null && !GameServer.getInstance().getEntities()[i].aggressive )
             {
-                double entityX = GameServer.getInstance().entities[i].getPosX();
-                double entityZ = GameServer.getInstance().entities[i].getPosZ();
+                double entityX = GameServer.getInstance().getEntities()[i].getPosX();
+                double entityZ = GameServer.getInstance().getEntities()[i].getPosZ();
                 double distance = Math.sqrt(Math.pow((posX - entityX),2) + Math.pow((posZ - entityZ),2));
                 if (distance <= 20){
                     this.posX = this.posX + (entityX - this.posX) / distance * 1;
@@ -41,35 +42,31 @@ public class Entity {
 
                     }
                 if (distance <= 2){
-                    this.attack(GameServer.getInstance().entities[i]);
-                    if (GameServer.getInstance().entities[i].getHealth() <= 0){
-                        System.out.println(GameServer.getInstance().entities[i].getTitle() +" Murdered by "+ getTitle());
-                        GameServer.getInstance().entities[i] = null;
-
+                    this.attack(GameServer.getInstance().getEntities()[i]);
+                    if (GameServer.getInstance().getEntities()[i].getHealth() <= 0){
+                        System.out.println(GameServer.getInstance().getEntities()[i].title +" Murdered by "+ this.title);
+                        GameServer.getInstance().getEntities()[i] = null;
                     }
-                    if (this.health <= 0){
-                        this.
                     }
-
-
                 }
 
             }
         }
     }
-    }
+
 
 
 
     public void attack(Entity entity){
         if (entity instanceof EntityPlayer){
             entity.setHealth((int) (entity.getHealth() - getAttackDamage() + 0.5 * GameServer.getInstance().getDifficulty()));
-            setHealth((int) (getHealth() - entity.getAttackDamage() + 0.5 * GameServer.getInstance().getDifficulty()));
+            System.out.println(this.title + " attacked " + ((EntityPlayer) entity).nickname + " for " + this.getAttackDamage() + " dmg.");
+            entity.attack(this);
         } else{
             entity.setHealth((int) (entity.getHealth() - getAttackDamage() + 0.5 * GameServer.getInstance().getDifficulty()));
+            System.out.println(this.title + " attacked " + entity.title + " for " + this.getAttackDamage() + " dmg.");
             }
         }
-
 
     @Override
     public String toString() {

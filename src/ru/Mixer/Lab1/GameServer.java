@@ -5,33 +5,38 @@ import java.util.Arrays;
 public class GameServer {
     private static  String ip;
     private static  int difficulty; // 1-3
-    public   Entity[] entities;
+    private   Entity[] entities;
     private static GameServer instance;
-    public static int tick = 0;
+    private static int tick = 0;
 
     public GameServer(int difficulty, Entity[] entities) {
-        this.difficulty = difficulty;
+        GameServer.difficulty = difficulty;
         this.entities = entities;
         instance = this;
     }
 
     public static void main(String[] args){
         GameServer serv = new GameServer( 2 , new Entity[]{
-                new Entity(1, "Skeleton", 0,0,true, 10,10,2),
-                new Entity(2,"Cow", 10,10,false,15,15,0),
-                new EntityPlayer(3,"Puj",20,20,false,50,50,4,"Pudge")
+                new Entity( "Skeleton", 0,0,true, 10,10,2),
+                new Entity("Cow", 10,10,false,15,15,0),
+                new EntityPlayer("Puj",20,20, 50,50,4,"Pudge")
         } );
         while(true){
             tick++;
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            serv.entities[0].update();
-            System.out.println(serv.entities[0]);
-            System.out.println(serv.entities[1]);
-            System.out.println(serv.entities[2]);
+            for (int i = 0; i < instance.entities.length; i++){
+                if (instance.entities[i] != null && instance.entities[i].getHealth() <= 0){
+                    instance.entities[i] = null;
+                }
+                if (instance.entities[i] != null ){
+                    instance.entities[i].update();
+                }
+            }
+
         }
     }
 
@@ -68,7 +73,7 @@ public class GameServer {
     }
 
     public void setTick(int tick) {
-        this.tick = tick;
+        GameServer.tick = tick;
     }
 
     public String getIp() {
@@ -76,7 +81,7 @@ public class GameServer {
     }
 
     public void setIp(String ip) {
-        this.ip = ip;
+        GameServer.ip = ip;
     }
 
     public int getDifficulty() {
@@ -84,7 +89,7 @@ public class GameServer {
     }
 
     public void setDifficulty(int difficulty) {
-        this.difficulty = difficulty;
+        GameServer.difficulty = difficulty;
     }
 
     public Entity[] getEntities() {
