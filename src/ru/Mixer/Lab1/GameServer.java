@@ -3,24 +3,17 @@ package ru.Mixer.Lab1;
 import java.util.Arrays;
 
 public class GameServer {
-    private static  String ip;
-    private static  int difficulty; // 1-3
-    private   Entity[] entities;
+    private  String ip;
+    private int difficulty; // 1-3
+    private  Entity[] entities;
     private static GameServer instance;
-    private static int tick = 0;
+    private int tick = 0;
 
-    public GameServer(int difficulty, Entity[] entities) {
-        GameServer.difficulty = difficulty;
-        this.entities = entities;
+    public GameServer(String ip, int difficulty, Entity[] entities) {
         instance = this;
-    }
-
-    public static void main(String[] args){
-        GameServer serv = new GameServer( 2 , new Entity[]{
-                new Entity( "Skeleton", 0,0,true, 10,10,2),
-                new Entity("Cow", 10,10,false,15,15,0),
-                new EntityPlayer("Puj",20,20, 50,50,4,"Pudge")
-        } );
+        this.ip = ip;
+        this.difficulty = difficulty;
+        this.entities = entities;
         while(true){
             tick++;
             try {
@@ -40,9 +33,12 @@ public class GameServer {
         }
     }
 
-    public GameServer() {
-        instance = this;
-
+    public static void main(String[] args){
+        GameServer serv = new GameServer("ip", 2 , new Entity[]{
+                new Entity( "Skeleton", 0,0,true, 10,10,2),
+                new Entity("Cow", 10,10,false,15,15,0),
+                new EntityPlayer("Puj",20,20, 50,50,4,"Pudge")
+        } );
     }
 
     public void updateServer(){
@@ -50,38 +46,13 @@ public class GameServer {
             entity.update();
         }
     }
-    @Override
-    public String toString() {
-        return "GameServer{" +
-                "ip='" + ip + '\'' +
-                ", difficulty=" + difficulty +
-                ", entities=" + Arrays.toString(entities) +
-                '}';
-    }
-
-
-    public static GameServer getInstance() {
-        return instance;
-    }
-
-    public static void setInstance(GameServer instance) {
-        GameServer.instance = instance;
-    }
-
-    public int getTick() {
-        return tick;
-    }
-
-    public void setTick(int tick) {
-        GameServer.tick = tick;
-    }
 
     public String getIp() {
         return ip;
     }
 
     public void setIp(String ip) {
-        GameServer.ip = ip;
+        this.ip = ip;
     }
 
     public int getDifficulty() {
@@ -89,7 +60,7 @@ public class GameServer {
     }
 
     public void setDifficulty(int difficulty) {
-        GameServer.difficulty = difficulty;
+        this.difficulty = difficulty;
     }
 
     public Entity[] getEntities() {
@@ -99,4 +70,34 @@ public class GameServer {
     public void setEntities(Entity[] entities) {
         this.entities = entities;
     }
-}
+
+    public static GameServer getInstance() {
+        return instance;
+    }
+
+    public void setInstance(GameServer instance) {
+        this.instance = instance;
+    }
+
+    public int getTick() {
+        return tick;
+    }
+
+    public void setTick(int tick) {
+        this.tick = tick;
+    }
+
+    @Override
+    public String toString() {
+        return "GameServer{" +
+                "ip='" + ip + '\'' +
+                ", difficulty=" + difficulty +
+                ", entities=" + Arrays.toString(entities) +
+                ", instance=" + instance +
+                ", tick=" + tick +
+                '}';
+    }}
+
+
+
+
