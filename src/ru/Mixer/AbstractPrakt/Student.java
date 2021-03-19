@@ -9,8 +9,8 @@ public class Student extends Human{
         this.level = level;
     }
     public void work(){
-        System.out.println(this.firstname + " " + this.patronymic);
-        System.out.println("Сдает долги");
+        System.out.print(this.firstname + " " + this.patronymic);
+        System.out.println(" Сдает долги");
     }
 
     @Override

@@ -1,19 +1,18 @@
 package ru.Mixer.AbstractPrakt;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 public class School extends Building {
     private int index;
     private String title;
-    private Teacher[] teachers;
-    private Student[] students;
+    private List<Teacher> teachers = new ArrayList<>();
+    private List<Student> students = new ArrayList<>();
 
-    public School(String address, int floorCount, int index, String title, Teacher[] teachers, Student[] students) {
+    public School(String address, int floorCount, int index, String title) {
         super(address, floorCount);
         this.index = index;
         this.title = title;
-        this.teachers = teachers;
-        this.students = students;
         this.type = BuildingTypeEnum.SOCIAL;
     }
 
@@ -22,31 +21,25 @@ public class School extends Building {
         return type;
     }
 
-    public void workAll(){
-        for (Student student : students){
+    public void workAll() {
+        for (Student student : students) {
             if (student != null) student.work();
         }
         for (Teacher teacher : teachers) if (teacher != null) teacher.work();
     }
-    public boolean addEntity(Human human){
+
+    public boolean addEntity(Human human) {
         if (human != null) {
             if (human instanceof Teacher) {
-                for (int i = 0; i < teachers.length; i++) {
-                    if (teachers[i] == null) {
-                        teachers[i] = (Teacher) human;
-                        return true;
-                    }
-                }
+                teachers.add((Teacher) human);
+                return true;
             } else if (human instanceof Student) {
-                for (int i = 0; i < students.length; i++) {
-                    if (students[i] == null) {
-                        students[i] = (Student) human;
-                        return true;
-                    }
-                }
+                students.add((Student) human);
+                return true;
             }
+            System.out.println("Not a school entity");
+            return false;
         }
-        System.out.println("Not a school entity");
         return false;
     }
 
@@ -55,10 +48,11 @@ public class School extends Building {
         return "School{" +
                 "address='" + address + '\'' +
                 ", floorCount=" + floorCount +
+                ", type=" + type +
                 ", index=" + index +
                 ", title='" + title + '\'' +
-                ", teachers=" + Arrays.toString(teachers) +
-                ", students=" + Arrays.toString(students) +
+                ", teachers=" + teachers +
+                ", students=" + students +
                 '}';
     }
 
@@ -78,19 +72,21 @@ public class School extends Building {
         this.title = title;
     }
 
-    public Teacher[] getTeachers() {
+    public List<Teacher> getTeachers() {
         return teachers;
     }
 
-    public void setTeachers(Teacher[] teachers) {
+    public void setTeachers(List<Teacher> teachers) {
         this.teachers = teachers;
     }
 
-    public Student[] getStudents() {
+    public List<Student> getStudents() {
         return students;
     }
 
-    public void setStudents(Student[] students) {
+    public void setStudents(List<Student> students) {
         this.students = students;
     }
 }
+
+

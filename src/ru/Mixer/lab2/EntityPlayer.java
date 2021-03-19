@@ -1,11 +1,11 @@
-package ru.Mixer.Lab1;
+package ru.Mixer.lab2;
 
 public class EntityPlayer extends Entity {
     protected String nickname;
     public static final String ANSI_GREEN = "\u001B[32m";   // Цвета
     public static final String ANSI_RESET = "\u001B[0m";   //    Для вывода
-    public EntityPlayer(String title, double posX, double posZ, int maxHealth, int health, int attackDamage, String nickname) {
-        super(title, posX, posZ, false, maxHealth, health, attackDamage);
+    public EntityPlayer(String title, double posX, double posZ, int maxHealth, int health, int attackDamage,World world , String nickname) {
+        super(title, posX, posZ, false, maxHealth, health, attackDamage, world);
         this.nickname = nickname;
     }
 

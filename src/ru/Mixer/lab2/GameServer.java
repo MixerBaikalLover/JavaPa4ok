@@ -1,4 +1,4 @@
-package ru.Mixer.Lab1;
+package ru.Mixer.lab2;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,13 +16,15 @@ public class GameServer {
         this.ip = ip;
         this.difficulty = difficulty;
         this.serverWorld = world;
-        instance.getServerWorld().addEntities(new Entity("Skeleton", 0, 0, true, 10, 10, 2));
-        instance.getServerWorld().addEntities(new Entity("Cow", 10, 10, false, 15, 15, 0));
-        instance.getServerWorld().addEntities(new EntityPlayer("Puj", 20, 20, 50, 50, 4, "Pudge"));
+        instance.getServerWorld().addEntities(new Entity("Skeleton", 0, 0, true, 10, 10, 2, serverWorld));
+        instance.getServerWorld().addEntities(new Entity("Cow", 10, 10, false, 15, 15, 0, serverWorld));
+        instance.getServerWorld().addEntities(new EntityPlayer("Puj", 20, 15, 50, 50, 4,serverWorld, "Pudge"));
+
         while (true) {
             instance.updateServer();
+            //System.out.println(getServerWorld().getEntitiesInRegion(0,0,30));
             try {
-                Thread.sleep(5);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

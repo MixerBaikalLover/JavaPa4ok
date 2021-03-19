@@ -28,8 +28,8 @@ public class Teacher extends Human{
 
     @Override
     public void work() {
-        System.out.println(this.firstname + " " + this.patronymic);
-        System.out.println("Учит студентов");
+        System.out.print(this.firstname + " " + this.patronymic);
+        System.out.println(" Учит студентов");
     }
 }
 

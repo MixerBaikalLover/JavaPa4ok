@@ -1,5 +1,8 @@
-package ru.Mixer.Lab1;
+package ru.Mixer.lab2;
 
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Entity {
     public static final String ANSI_RED = "\u001B[31m";   // Цвета
@@ -13,8 +16,19 @@ public class Entity {
     private int maxHealth;
     private int health;
     private int attackDamage;
+    private Entity target;
+    private World world;
+    private double distance;
 
-    public Entity( String title, double posX, double posZ, boolean aggressive, int maxHealth, int health, int attackDamage) {
+    public void searchTarget(){
+        List<Entity> nearby = new ArrayList<>();
+        nearby = world.getEntitiesNearEntity(this, 20);
+        for(int i = 0; i < nearby.size(); i++){
+            if(!nearby.get(i).aggressive) target = nearby.get(i);
+        }
+    }
+
+    public Entity( String title, double posX, double posZ, boolean aggressive, int maxHealth, int health, int attackDamage, World world) {
         this.id = idCounter;
         idCounter ++;
         this.title = title;
@@ -24,6 +38,7 @@ public class Entity {
         this.maxHealth = maxHealth;
         this.health = health;
         this.attackDamage = attackDamage;
+        this.world = world;
     }
 
     public Entity(long id) {
@@ -32,7 +47,15 @@ public class Entity {
 
     public void update(){
         if(aggressive){
-        for(int i = GameServer.getInstance().getServerWorld().getEntities().size() - 1; i >= 0; i--){
+            if (target == null) this.searchTarget();
+            if (target==null) return;
+            if (target.posX > posX) posX++;
+            else if (target.posX < posX) posX--;
+            if (target.posZ > posZ) posZ++;
+            else if (target.posZ < posZ) posZ--;
+            if (distance < 2) attack(target);
+        }
+        /*for(int i = GameServer.getInstance().getServerWorld().getEntities().size() - 1; i >= 0; i--){
             if ( GameServer.getInstance().getServerWorld().getEntities().get(i) != null && !GameServer.getInstance().getServerWorld().getEntities().get(i).aggressive )
             {
                 double entityX = GameServer.getInstance().getServerWorld().getEntities().get(i).getPosX();
@@ -49,7 +72,7 @@ public class Entity {
                 }
 
             }
-        }
+        }*/
     }
 
 
@@ -66,6 +89,7 @@ public class Entity {
             }
             if (entity.getHealth() <= 0){
                 System.out.println(entity.getTitle() + " Was slain by " + this.getTitle());
+                this.target = null;
             }
         }
 
@@ -80,7 +104,33 @@ public class Entity {
                 ", maxHealth=" + maxHealth +
                 ", health=" + health +
                 ", attackDamage=" + attackDamage +
+                ", target=" + target +
+                ", world=" + world +
                 '}';
+    }
+
+    public Entity getTarget() {
+        return target;
+    }
+
+    public void setTarget(Entity target) {
+        this.target = target;
+    }
+
+    public World getWorld() {
+        return world;
+    }
+
+    public void setWorld(World world) {
+        this.world = world;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
 
     public static int getIdCounter() {

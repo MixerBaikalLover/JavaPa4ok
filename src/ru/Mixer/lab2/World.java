@@ -1,7 +1,8 @@
-package ru.Mixer.Lab1;
+package ru.Mixer.lab2;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class World {
@@ -19,38 +20,34 @@ public class World {
     public void update() {
         for(int i = entities.size() - 1; i >= 0; i--){
             if (entities.get(i) != null && entities.get(i).getHealth() <= 0) {
-                entities.set(i, null);
+                entities.remove(i);
             }
             if(entities.get(i) != null) entities.get(i).update();
         }
     }
     //возращает отсортированный в порядке близости точке x/z список сущностей
     public List<Entity> getEntitiesInRegion(double posX, double posZ, double range){
-        List<Entity> result = new ArrayList<>();
         List<Entity> buffer = new ArrayList<>();
         for(int i = entities.size() - 1; i >= 0; i--){
             if(entities.get(i) != null) {
                 double entityX = entities.get(i).getPosX();
                 double entityZ = entities.get(i).getPosZ();
-                double distance = Math.sqrt(Math.pow((posX - entityX), 2) + Math.pow((posZ - entityZ), 2));
-                if (distance <= range) buffer.add(entities.get(i));
+                entities.get(i).setDistance(Math.sqrt(Math.pow((posX - entityX), 2) + Math.pow((posZ - entityZ), 2)));
+                if (entities.get(i).getDistance() <= range) buffer.add(entities.get(i));
             }
         }
+        Collections.sort(buffer, new Comparator<Entity>() {
+            @Override
+            public int compare(Entity a, Entity b) {
+                return Double.compare(a.getDistance(),b.getDistance() );
+            }
+        });
         return buffer;
     }
     //возращает отсортированный в порядке близости точке entity.posX/entity.posZ список сущностей
     public List<Entity> getEntitiesNearEntity(Entity entity, double range){
-        List<Entity> result = new ArrayList<>();
-        List<Entity> buffer = new ArrayList<>();
-        for(int i = entities.size() - 1; i >= 0; i--){
-            if(entities.get(i) != null) {
-                double entityX = entities.get(i).getPosX();
-                double entityZ = entities.get(i).getPosZ();
-                double distance = Math.sqrt(Math.pow((entity.getPosX() - entityX), 2) + Math.pow((entity.getPosZ() - entityZ), 2));
-                if (distance <= range) buffer.add(entities.get(i));
-            }
-        }
-        return result;
+
+        return getEntitiesInRegion(entity.getPosX(), entity.getPosZ(), range);
     }
 
 

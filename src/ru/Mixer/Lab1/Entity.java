@@ -13,6 +13,7 @@ public class Entity {
     private int maxHealth;
     private int health;
     private int attackDamage;
+    private Entity target;
 
     public Entity( String title, double posX, double posZ, boolean aggressive, int maxHealth, int health, int attackDamage) {
         this.id = idCounter;
