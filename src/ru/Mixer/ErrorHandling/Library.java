@@ -46,14 +46,12 @@ public class Library {
         if (id <= 0) throw new BookReadException("ID must be greater then zero");
         System.out.println("Введите название книги(свитка)((бересты))(((папируса)))");
         String title = scan.nextLine();
-        if (title.length() <3 | title.length() > 30) throw new BookReadException("Wrong title length");
+        if (title.length() <3 | title.length() > 30);
         System.out.println("Введите автора книги(свитка)((бересты))(((папируса)))");
         String author = scan.nextLine();
-        if (author.length() <3 | author.length() > 30) throw new BookReadException("Wrong author length");
+        if (author.length() <3 | author.length() > 30);
         System.out.println("Введите год создания книги(свитка)((бересты))(((папируса)))");
         int year = Integer.parseInt(scan.nextLine());
-        if (year < -3500 ) throw new BookReadException("those niggas didn't knew how to write");
-        if (year > 2022) throw new BookReadException("go back to the future, traveler");
         book.setTitle(title);
         book.setId(id);
         book.setAuthor(author);

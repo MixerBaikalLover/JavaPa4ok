@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.Scanner;
 
 public class BookReadException extends Exception{
-    public static int pudj() throws IOException {
+    public static int pudge() throws IOException {
         Scanner scan = new Scanner(System.in);
         int k = 0;
         System.out.println("Enter lib address then lib id");
