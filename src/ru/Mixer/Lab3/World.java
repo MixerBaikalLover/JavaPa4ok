@@ -1,11 +1,12 @@
 package ru.Mixer.Lab3;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class World {
+public class World implements Serializable {
     private static int idCounter = 1;
     private final long id;
     private String worldName;
